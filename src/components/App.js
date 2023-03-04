@@ -1,57 +1,41 @@
+import React, { useState } from "react";
+import "../styles/App.css";
+import { movies } from "../utils/movieList";
 
-import React, { Component, useState } from "react";
-import '../styles/App.css';
+const App = () => {
+    const [inputValue, setInputValue] = useState("");
+    const [results, setResult] = useState(null);
 
-class App extends Component {
-  constructor(props) {
-    super(props)
+    function handleClick(e) {
+        e.preventDefault();
+        setResult(movies.filter(({title})=>title.toLowerCase()== inputValue.toLowerCase()))
+    }
 
-    this.cityList = [{ name: 'Goa', country: 'India' },
-    { name: 'Amsterdam', country: 'Netherlands' },
-    { name: 'New York', country: 'USA' },
-    { name: 'Darjeeling', country: 'India' },
-    { name: 'Tokyo', country: 'Japan' },
-    { name: 'Lonavala', country: 'India' },
-    { name: 'Brandenburg Gate', country: 'Germany' },
-    { name: 'Reichstag Building', country: 'Germany' },
-    { name: 'Museum Island', country: 'Germany' },
-    { name: 'Munnar', country: 'India' },
-    { name: 'Leh Ladakh', country: 'India' },
-    { name: 'Goa', country: 'India' },
-    { name: 'Agra', country: 'India' },
-    { name: 'Dalhousie', country: 'India' },
-    { name: 'Coorg', country: 'India' },
-    { name: 'Rome', country: 'Italy' },
-    { name: 'Milan', country: 'Italy' },
-    { name: 'Venice', country: 'Italy' },
-    { name: 'Varanasai', country: 'India' },
-    { name: 'Jaipur', country: 'India' },
-    { name: 'The Hofburg', country: 'Austria' },
-    { name: 'Belvedere Palace', country: 'Austria' },
-    { name: 'St. Stephen Cathedral', country: 'Austria' },
-    { name: 'Kahna National Park', country: 'India' },
-    { name: 'Amritsar', country: 'India' },
-    { name: 'Mussoorie', country: 'India' },
-    { name: 'Mount Abu', country: 'India' },
-    { name: 'Tirupati', country: 'India' },
-    ]
-  }
+    function handleChange(e) {
+        setInputValue(e.target.value);
+    }
 
-  render() {
     return (
-      <div id="main">
-        <ol>
-        {this.cityList.filter(obj=>obj.country == "Italy").map((obj,idx)=>{
-         
-          return(
-            <li key={'location'+idx+1}>{obj.name}</li>
-          )
-        })}
-        </ol>
-      </div>
-    )
-  }
-}
-
+        <div id="main">
+            <form id="form">
+                <input
+                    type="text"
+                    onChange={handleChange}
+                    value={inputValue}
+                    id="movie-input"
+                ></input>
+                <button id="button" onClick={handleClick}>
+                    Search
+                </button>
+            </form>
+            <div id="result">
+                {results &&
+                    results.map((movie,id) => (
+                        <div className="movie" key={id}>{movie.title}</div>
+                    ))}
+            </div>
+        </div>
+    );
+};
 
 export default App;
